@@ -1,0 +1,34 @@
+name: CI
+
+# main에 push할 때, 그리고 PR을 열거나 고칠 때마다 실행한다
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 코드 내려받기
+        uses: actions/checkout@v4
+
+      - name: uv 설치
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Python과 의존성 설치 (uv.lock 그대로)
+        run: uv sync --locked
+
+      - name: ruff (린트)
+        run: uv run ruff check .
+
+      - name: ruff (포맷 검사)
+        run: uv run ruff format --check .
+
+      - name: mypy (타입 검사)
+        run: uv run mypy src
+
+      - name: pytest (테스트)
+        run: uv run pytest
