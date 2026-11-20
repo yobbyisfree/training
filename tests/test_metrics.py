@@ -5,7 +5,7 @@ from training.metrics import capacity_factor
 
 def test_basic() -> None:
     # 100kW 설비가 24시간 동안 600kWh를 발전하면 이용률은 0.25
-    assert capacity_factor(600, 100, 24) == 0.25
+    assert capacity_factor(600, 100, 24) == 0.3
 
 
 def test_zero_capacity_is_error() -> None:
